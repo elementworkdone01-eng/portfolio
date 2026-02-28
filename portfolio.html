@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bello Toheeb — Portfolio | Cinematographer & Video Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --w:#fff;--w2:#f5f7fb;--w3:#edf1f8;
+  --ink:#0b0f16;--ink2:#18202e;
+  --dim:#52637a;--dim2:#8da2bc;
+  --bdr:rgba(10,20,50,.065);--bdr2:rgba(10,20,50,.12);
+  --b:#1d4ed8;--bm:#2563eb;--bl:#eff6ff;--bl2:#dbeafe;
+  --bg:rgba(29,78,216,.11);
+  --void:#050710;--void2:#090e1c;
+  --am:#c9a84c;--ag:rgba(201,168,76,.15);
+  --f:rgba(215,225,240,.9);--f2:rgba(215,225,240,.45);--f3:rgba(215,225,240,.18);--f4:rgba(215,225,240,.07);
+  --FD:'Bebas Neue',sans-serif;--FI:'Cormorant Garamond',serif;--FB:'DM Sans',sans-serif;
+  --E:cubic-bezier(.19,1,.22,1)
+}
+html{scroll-behavior:smooth;cursor:none}
+body{background:var(--w);color:var(--ink);font-family:var(--FB);font-weight:300;font-size:16px;overflow-x:hidden;line-height:1.7}
+
+#cur{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur-dot{width:6px;height:6px;border-radius:50%;background:var(--b);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .2s,background .3s}
+#cur-ring{width:36px;height:36px;border-radius:50%;border:1px solid rgba(29,78,216,.28);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:width .4s var(--E),height .4s var(--E),border-color .3s,background .3s}
+#cur.on-card #cur-ring{width:62px;height:62px;border-color:rgba(29,78,216,.42);background:rgba(29,78,216,.04)}
+#cur.on-link #cur-dot{transform:translate(-50%,-50%) scale(2.8);background:var(--b)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:800;display:flex;align-items:center;justify-content:space-between;padding:1.6rem 5vw;transition:background .5s,padding .4s,box-shadow .4s;pointer-events:none}
+nav.on{background:rgba(255,255,255,.93);backdrop-filter:blur(24px) saturate(200%);border-bottom:1px solid var(--bdr);padding:1rem 5vw;pointer-events:all;box-shadow:0 1px 18px rgba(10,20,50,.055)}
+.nl{font-family:var(--FD);font-size:1.3rem;letter-spacing:.16em;color:var(--ink);text-decoration:none;opacity:0;transition:opacity .4s}
+nav.on .nl{opacity:1}
+.nav-r{display:flex;align-items:center;gap:2.4rem;opacity:0;transition:opacity .4s}
+nav.on .nav-r{opacity:1}
+.nav-r a{font-family:var(--FD);font-size:.7rem;letter-spacing:.22em;color:var(--dim);text-decoration:none;transition:color .25s;position:relative}
+.nav-r a::after{content:'';position:absolute;bottom:-.3rem;left:0;right:0;height:1px;background:var(--b);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--E)}
+.nav-r a:hover{color:var(--ink)}
+.nav-r a:hover::after{transform:scaleX(1)}
+.nav-btn{display:flex;align-items:center;gap:.5rem;background:var(--b);color:#fff;padding:.5rem 1.2rem;font-family:var(--FD);font-size:.7rem;letter-spacing:.18em;border:none;cursor:none;transition:all .3s;text-decoration:none}
+.nav-btn:hover{background:var(--bm);box-shadow:0 4px 14px var(--bg)}
+.nav-btn svg{width:11px;height:11px;fill:#fff}
+
+.hero{position:relative;width:100%;height:100vh;overflow:hidden;background:var(--void)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg video{width:100%;height:100%;object-fit:cover;opacity:.4;filter:saturate(.5) brightness(.68)}
+.hero-bg-fb{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 58% 38%,rgba(29,78,216,.09) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 18% 72%,rgba(201,168,76,.06) 0%,transparent 55%),linear-gradient(158deg,#050710 0%,#090e1c 52%,#04070e 100%)}
+.hero-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(5,7,16,.97) 0%,rgba(5,7,16,.3) 48%,transparent 100%),radial-gradient(ellipse 120% 80% at 50% 100%,rgba(5,7,16,.85) 0%,transparent 55%)}
+.hero-vig{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 100% 100% at 50% 50%,transparent 42%,rgba(5,7,16,.6) 100%)}
+.hero-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.48;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+.hero-lb-t,.hero-lb-b{position:absolute;left:0;right:0;height:60px;background:var(--void);z-index:4}
+.hero-lb-t{top:0}
+.hero-lb-b{bottom:0}
+.hero-lb-t::after{content:'BTO · 2021–2025 — CINEMATOGRAPHER / VIDEO EDITOR / CONTENT CREATOR';position:absolute;bottom:.6rem;left:5vw;font-family:var(--FD);font-size:.52rem;letter-spacing:.3em;color:rgba(201,168,76,.2)}
+.hero-lb-b::before{content:attr(data-tc);position:absolute;top:.6rem;right:5vw;font-family:var(--FD);font-size:.52rem;letter-spacing:.22em;color:rgba(201,168,76,.16)}
+
+.hero-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);z-index:10;display:flex;flex-direction:column;align-items:center;opacity:0;animation:up 1.2s var(--E) .3s forwards}
+.hero-eyebrow{font-family:var(--FD);font-size:.6rem;letter-spacing:.5em;color:rgba(201,168,76,.65);margin-bottom:2.8rem;display:flex;align-items:center;gap:1.2rem}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:rgba(201,168,76,.3)}
+
+.play-orbit{position:relative;width:160px;height:160px;display:flex;align-items:center;justify-content:center;cursor:none}
+.play-orbit::before{content:'';position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(215,225,240,.055);animation:spin 14s linear infinite}
+.play-orbit::after{content:'';position:absolute;inset:-28px;border-radius:50%;border:1px dashed rgba(29,78,216,.16);animation:spin 22s linear infinite reverse}
+.play-outer-ring{position:absolute;inset:-48px;border-radius:50%;border:1px solid rgba(215,225,240,.022);animation:spin 36s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.play-ring{width:120px;height:120px;border-radius:50%;border:1px solid rgba(215,225,240,.14);display:flex;align-items:center;justify-content:center;transition:transform .6s var(--E),border-color .4s}
+.play-orbit:hover .play-ring{transform:scale(1.06);border-color:rgba(29,78,216,.32)}
+.play-core{width:82px;height:82px;border-radius:50%;background:rgba(215,225,240,.055);border:1px solid rgba(215,225,240,.18);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;transition:all .5s var(--E)}
+.play-core svg{width:28px;height:28px;fill:var(--f);margin-left:6px;transition:fill .3s,transform .4s}
+.play-orbit:hover .play-core{background:rgba(29,78,216,.22);border-color:rgba(29,78,216,.5)}
+.play-orbit:hover .play-core svg{fill:#fff;transform:scale(1.08)}
+.play-hint{font-family:var(--FD);font-size:.62rem;letter-spacing:.52em;color:var(--f3);margin-top:2.2rem}
+
+.hero-portfolio-tag{
+  font-family:var(--FD);font-size:.62rem;letter-spacing:.45em;
+  color:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.15);
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.3rem .85rem .3rem .75rem;
+  margin-bottom:.9rem;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(4px);
+}
+.hero-portfolio-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--b);display:inline-block}
+.hero-name{position:absolute;bottom:5rem;left:5vw;z-index:10;opacity:0;animation:up 1s var(--E) .7s forwards}
+.hero-name h1{font-family:var(--FD);font-size:clamp(5rem,10vw,10rem);line-height:.88;letter-spacing:.04em;color:var(--f)}
+.hero-name h1 .out{display:block;color:var(--f)}
+.hero-name p{font-family:var(--FI);font-style:italic;font-size:clamp(.9rem,1.4vw,1.25rem);color:var(--am);letter-spacing:.05em;margin-top:.65rem}
+.hero-br{position:absolute;bottom:5rem;right:5vw;z-index:10;opacity:0;animation:up .9s var(--E) 1s forwards;display:flex;flex-direction:column;align-items:flex-end;gap:.55rem;text-decoration:none}
+.hero-sline{width:48px;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.4))}
+.hero-stxt{font-family:var(--FD);font-size:.55rem;letter-spacing:.38em;color:var(--f3)}
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+.trusted{position:relative;overflow:hidden;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);background:var(--w2);padding:.9rem 0}
+.trusted::before,.trusted::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.trusted::before{left:0;background:linear-gradient(to right,var(--w2),transparent)}
+.trusted::after{right:0;background:linear-gradient(to left,var(--w2),transparent)}
+.t-track{display:flex;gap:0;width:max-content;animation:mq 36s linear infinite}
+.t-track:hover{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.brand{font-family:var(--FD);font-size:.88rem;letter-spacing:.24em;color:var(--dim2);white-space:nowrap;padding:0 3rem;border-right:1px solid var(--bdr);display:flex;align-items:center;gap:.8rem;transition:color .3s}
+.brand:hover{color:var(--dim)}
+.bdot{width:3px;height:3px;border-radius:50%;background:var(--b);opacity:.4}
+
+.reel-header{display:flex;align-items:flex-end;justify-content:space-between;padding:6rem 5vw 3rem;flex-wrap:wrap;gap:1.5rem}
+.ey{font-family:var(--FD);font-size:.6rem;letter-spacing:.45em;color:var(--b);margin-bottom:.85rem;display:flex;align-items:center;gap:.7rem}
+.ey::before{content:'';width:22px;height:1px;background:var(--b)}
+.reel-h{font-family:var(--FI);font-weight:400;font-size:clamp(1.9rem,3.2vw,3rem);color:var(--ink);line-height:1.06}
+.reel-h em{font-style:italic;color:var(--b)}
+.reel-sub{font-size:.95rem;color:var(--dim);margin-top:.5rem}
+.filter-row{display:flex;gap:.35rem;flex-wrap:wrap}
+.fb{font-family:var(--FD);font-size:.66rem;letter-spacing:.2em;padding:.36rem .95rem;border:1px solid var(--bdr2);background:transparent;color:var(--dim);cursor:none;transition:all .28s}
+.fb.on,.fb:hover{background:var(--b);border-color:var(--b);color:#fff}
+
+.reel-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:460px 300px 380px;gap:2px;width:100%}
+.wc:nth-child(1){grid-column:1/8;grid-row:1}
+.wc:nth-child(2){grid-column:8/11;grid-row:1}
+.wc:nth-child(3){grid-column:11/13;grid-row:1}
+.wc:nth-child(4){grid-column:1/4;grid-row:2}
+.wc:nth-child(5){grid-column:4/8;grid-row:2}
+.wc:nth-child(6){grid-column:8/13;grid-row:2}
+.wc:nth-child(7){grid-column:1/5;grid-row:3}
+.wc:nth-child(8){grid-column:5/9;grid-row:3}
+.wc:nth-child(9){grid-column:9/13;grid-row:3}
+
+.wc{position:relative;overflow:hidden;cursor:none;background:var(--void2);transition:opacity .4s,transform .4s}
+.wc-bg{position:absolute;inset:0;z-index:0;transition:transform .85s var(--E)}
+.wc:hover .wc-bg{transform:scale(1.04)}
+.wc:nth-child(1) .wc-bg{background:linear-gradient(148deg,#07102a,#030810)}
+.wc:nth-child(2) .wc-bg{background:linear-gradient(148deg,#13100a,#06040a)}
+.wc:nth-child(3) .wc-bg{background:linear-gradient(148deg,#071218,#030810)}
+.wc:nth-child(4) .wc-bg{background:linear-gradient(148deg,#0a0d20,#040608)}
+.wc:nth-child(5) .wc-bg{background:linear-gradient(148deg,#0f0608,#060305)}
+.wc:nth-child(6) .wc-bg{background:linear-gradient(148deg,#050b1a,#030810)}
+.wc:nth-child(7) .wc-bg{background:linear-gradient(148deg,#0b0e22,#040608)}
+.wc:nth-child(8) .wc-bg{background:linear-gradient(148deg,#0c0820,#060510)}
+.wc:nth-child(9) .wc-bg{background:linear-gradient(148deg,#06100a,#030810)}
+.wc-vid{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .85s ease}
+.wc-vid video{width:100%;height:100%;object-fit:cover;filter:brightness(.66) saturate(.68)}
+.wc:hover .wc-vid{opacity:1}
+.wc-num{position:absolute;top:1.1rem;right:1.2rem;z-index:6;font-family:var(--FD);font-size:.52rem;letter-spacing:.3em;color:rgba(215,225,240,.2);transition:color .3s}
+.wc:hover .wc-num{color:rgba(215,225,240,.45)}
+.wc-role{position:absolute;top:1.1rem;left:1.2rem;z-index:6;font-family:var(--FD);font-size:.53rem;letter-spacing:.14em;color:rgba(215,225,240,.35);padding:.2rem .62rem;background:rgba(5,7,16,.7);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.05);transition:color .3s,border-color .3s}
+.wc:hover .wc-role{color:rgba(215,225,240,.88);border-color:rgba(29,78,216,.3)}
+.wc-splice{position:absolute;top:0;left:0;right:0;height:2px;z-index:7;background:linear-gradient(90deg,var(--b) 0%,rgba(29,78,216,.22) 65%,transparent 100%);transform:scaleX(0);transform-origin:left;transition:transform .65s var(--E)}
+.wc:hover .wc-splice{transform:scaleX(1)}
+.wc-scan{position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(0,0,0,.036) 3px,rgba(0,0,0,.036) 4px);opacity:0;transition:opacity .4s}
+.wc:hover .wc-scan{opacity:1}
+.wc-info{position:absolute;inset:0;z-index:5;background:linear-gradient(to top,rgba(5,7,16,.97) 0%,rgba(5,7,16,.16) 58%,transparent 88%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.6rem 1.8rem;opacity:0;transform:translateY(10px);transition:opacity .45s var(--E),transform .45s var(--E)}
+.wc:hover .wc-info{opacity:1;transform:translateY(0)}
+.wc-cat{font-family:var(--FD);font-size:.55rem;letter-spacing:.3em;color:var(--bm);margin-bottom:.4rem}
+.wc-title{font-family:var(--FI);font-size:1.12rem;font-weight:400;color:rgba(215,225,240,.95);margin-bottom:.3rem;line-height:1.2}
+.wc-meta{font-family:var(--FD);font-size:.56rem;letter-spacing:.16em;color:rgba(215,225,240,.3);display:flex;gap:.9rem}
+.wc-meta span+span::before{content:'·';margin-right:.9rem}
+.wc-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.55);width:50px;height:50px;border-radius:50%;border:1px solid rgba(29,78,216,.4);background:rgba(29,78,216,.1);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:6;opacity:0;transition:all .4s var(--E)}
+.wc-play svg{fill:#fff;width:17px;height:17px;margin-left:3px}
+.wc:hover .wc-play{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.reel-footer{display:flex;justify-content:center;align-items:center;gap:1rem;padding:4rem 5vw}
+
+.about{display:grid;grid-template-columns:1fr 1fr;min-height:88vh}
+.about-l{background:var(--ink);padding:7rem 5vw;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.about-l::after{content:'';position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.04'/%3E%3C/svg%3E");opacity:.5;mix-blend-mode:overlay}
+.about-l::before{content:'';position:absolute;top:0;right:0;width:260px;height:260px;background:radial-gradient(circle at 100% 0%,rgba(29,78,216,.11) 0%,transparent 65%);pointer-events:none}
+.about-big{font-family:var(--FD);font-size:clamp(4.5rem,7.5vw,7.5rem);line-height:.88;letter-spacing:.03em;color:var(--f);position:relative;z-index:1}
+.about-big span{display:block;color:transparent;-webkit-text-stroke:1px rgba(215,225,240,.15)}
+.about-st{position:relative;z-index:1}
+.about-st p{font-family:var(--FI);font-style:italic;font-size:1.1rem;color:rgba(215,225,240,.5);line-height:1.78;margin-bottom:1.4rem}
+.about-div{width:32px;height:1px;background:var(--am);opacity:.45;margin-bottom:1.4rem}
+.about-stats{display:flex;gap:2.2rem}
+.ast{border-left:2px solid rgba(29,78,216,.38);padding-left:.85rem}
+.ast-n{font-family:var(--FD);font-size:1.9rem;color:var(--f);line-height:1}
+.ast-l{font-family:var(--FD);font-size:.56rem;letter-spacing:.22em;color:var(--f3);margin-top:.1rem}
+
+.about-r{background:var(--w);padding:7rem 5vw;display:flex;flex-direction:column;justify-content:center;gap:2.4rem}
+.av-frame{position:relative;height:320px;overflow:hidden;background:var(--ink2)}
+.av-frame video{width:100%;height:100%;object-fit:cover;opacity:.52}
+.av-fb{position:absolute;inset:0;background:radial-gradient(ellipse at 32% 42%,#0c1830,#030810);display:flex;align-items:center;justify-content:center}
+.av-ghost{font-family:var(--FD);font-size:6.5rem;opacity:.045;color:#fff;letter-spacing:.1em}
+.av-frame::after{content:'';position:absolute;top:0;right:0;width:130px;height:130px;background:radial-gradient(circle at 100% 0%,rgba(29,78,216,.11),transparent 65%);pointer-events:none;z-index:1}
+.about-copy p{font-size:.98rem;color:var(--dim);line-height:1.86;margin-bottom:.88rem}
+.about-cta{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.3rem}
+.skills{display:flex;gap:.38rem;flex-wrap:wrap}
+.sk{font-family:var(--FD);font-size:.58rem;letter-spacing:.12em;padding:.26rem .68rem;border:1px solid var(--bdr2);color:var(--dim2);background:var(--w2);transition:all .25s;cursor:default}
+.sk:hover{border-color:var(--b);color:var(--b);background:var(--bl)}
+
+.exp{background:var(--w2);padding:7rem 5vw}
+.exp-inner{display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;align-items:start;margin-top:4rem}
+.exp-intro h2{font-family:var(--FI);font-weight:400;font-size:clamp(1.9rem,3vw,2.9rem);color:var(--ink);line-height:1.06;margin-bottom:.7rem}
+.exp-intro h2 em{font-style:italic;color:var(--b)}
+.exp-intro p{font-size:.98rem;color:var(--dim);line-height:1.82}
+.timeline{position:relative}
+.timeline::before{content:'';position:absolute;left:0;top:16px;bottom:0;width:1px;background:var(--bdr2)}
+.te{padding-left:2.1rem;position:relative;margin-bottom:3rem}
+.te:last-child{margin-bottom:0}
+.te-dot{position:absolute;left:-5px;top:16px;width:11px;height:11px;border-radius:50%;background:var(--w2);border:1.5px solid var(--bdr2);transition:all .3s}
+.te.cur .te-dot{background:var(--b);border-color:var(--b);box-shadow:0 0 0 4px var(--bl)}
+.te-period{font-family:var(--FD);font-size:.6rem;letter-spacing:.24em;color:var(--dim2);margin-bottom:.48rem}
+.te-role{font-family:var(--FI);font-size:1.18rem;font-weight:400;color:var(--ink);margin-bottom:.18rem}
+.te-co{font-family:var(--FD);font-size:.7rem;letter-spacing:.14em;color:var(--b);margin-bottom:.65rem}
+.te-desc{font-size:.96rem;color:var(--dim);line-height:1.8;margin-bottom:.82rem}
+.te-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.te-tag{font-family:var(--FD);font-size:.56rem;letter-spacing:.1em;color:var(--dim);padding:.18rem .62rem;background:var(--w);border:1px solid var(--bdr)}
+.edu{display:flex;gap:.9rem;align-items:flex-start;background:var(--bl);border:1px solid var(--bl2);padding:1.3rem 1.5rem;margin-top:2rem}
+.edu-ic{width:36px;height:36px;background:var(--bl2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.edu-d{font-family:var(--FI);font-size:.98rem;font-weight:400;color:var(--ink);margin-bottom:.16rem}
+.edu-s{font-size:.9rem;color:var(--dim)}
+.edu-y{font-family:var(--FD);font-size:.6rem;letter-spacing:.14em;color:var(--b);margin-top:.22rem}
+
+.gear{background:var(--w);padding:7rem 5vw}
+.gear-top{display:grid;grid-template-columns:1fr 2.2fr;gap:4rem;align-items:start;margin-bottom:4rem}
+.gear-intro h2{font-family:var(--FI);font-weight:400;font-size:clamp(1.9rem,3vw,2.9rem);color:var(--ink);margin-bottom:.7rem;line-height:1.06}
+.gear-intro h2 em{font-style:italic;color:var(--b)}
+.gear-intro p{font-size:.97rem;color:var(--dim);line-height:1.82}
+.gear-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr2)}
+.gc{background:var(--w);padding:1.9rem 1.7rem;position:relative;overflow:hidden;transition:box-shadow .3s}
+.gc::before{content:'';position:absolute;top:0;left:0;width:2px;height:0;background:var(--b);transition:height .45s var(--E)}
+.gc:hover{box-shadow:inset 0 0 0 1px var(--bl2)}
+.gc:hover::before{height:100%}
+.gc-title{font-family:var(--FD);font-size:.8rem;letter-spacing:.22em;color:var(--b);margin-bottom:1.3rem;padding-bottom:.75rem;border-bottom:1px solid var(--bdr)}
+.gi{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--bdr)}
+.gi:last-child{border-bottom:none}
+.gi-n{font-size:.9rem;color:var(--dim)}
+.gi-t{font-family:var(--FD);font-size:.53rem;letter-spacing:.15em;color:var(--b);opacity:.7}
+
+.refs{background:var(--w2);padding:7rem 5vw}
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:3.5rem}
+.rc{background:var(--w);padding:2.1rem;border:1px solid var(--bdr);display:flex;flex-direction:column;transition:border-color .3s,box-shadow .3s}
+.rc:hover{border-color:var(--bl2);box-shadow:0 6px 22px var(--bg)}
+.rc-src{font-family:var(--FD);font-size:.56rem;letter-spacing:.22em;color:var(--dim2);margin-bottom:1.1rem}
+.rc-q{font-family:var(--FI);font-style:italic;font-size:.98rem;color:var(--dim);line-height:1.88;flex:1;margin-bottom:1.7rem;position:relative}
+.rc-q::before{content:'\201C';font-family:var(--FI);font-size:4.5rem;color:var(--b);opacity:.11;position:absolute;top:-1.1rem;left:-.35rem;line-height:1;pointer-events:none}
+.rc-auth{display:flex;align-items:center;gap:.85rem;margin-top:auto}
+.rc-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--b),var(--bm));display:flex;align-items:center;justify-content:center;font-family:var(--FD);font-size:.82rem;color:#fff;flex-shrink:0}
+.rc-name{font-family:var(--FI);font-size:.96rem;font-weight:400;color:var(--ink)}
+.rc-title{font-size:.84rem;color:var(--dim);margin-top:.08rem}
+.rc-ctx{font-family:var(--FD);font-size:.56rem;letter-spacing:.12em;color:var(--b);margin-top:.12rem}
+
+.contact{display:grid;grid-template-columns:1fr 1fr;min-height:80vh}
+.contact-l{background:var(--w);padding:7rem 5vw;display:flex;flex-direction:column;justify-content:space-between}
+.contact-big{font-family:var(--FD);font-size:clamp(3.5rem,6vw,6.5rem);line-height:.9;letter-spacing:.04em;color:var(--ink);margin-bottom:2rem}
+.contact-big em{font-family:var(--FI);font-style:italic;color:var(--b)}
+.contact-p{font-size:.98rem;color:var(--dim);line-height:1.84;max-width:360px;margin-bottom:2.4rem}
+.cinfo{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.8rem}
+.ci{display:flex;align-items:center;gap:.85rem}
+.ci-ic{width:35px;height:35px;background:var(--bl);border:1px solid var(--bl2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ci-l{font-family:var(--FD);font-size:.56rem;letter-spacing:.2em;color:var(--dim2)}
+.ci-v{font-size:.91rem;color:var(--ink)}
+.socials{display:flex;gap:.5rem;margin-bottom:1.8rem}
+.soc{width:38px;height:38px;border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;color:var(--dim);text-decoration:none;transition:all .28s;cursor:none}
+.soc:hover{border-color:var(--b);color:var(--b);background:var(--bl)}
+.soc svg{width:15px;height:15px;fill:currentColor}
+.cv-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.25rem 1.4rem;background:var(--bl);border:1px solid var(--bl2);flex-wrap:wrap}
+.cv-row-t{font-family:var(--FI);font-size:.96rem;color:var(--ink)}
+.cv-row-s{font-size:.8rem;color:var(--dim);margin-top:.12rem}
+.contact-r{background:var(--w2);padding:7rem 5vw;display:flex;flex-direction:column;justify-content:center}
+.form-t{font-family:var(--FI);font-size:1.45rem;font-weight:400;color:var(--ink);margin-bottom:.38rem}
+.form-s{font-size:.9rem;color:var(--dim);margin-bottom:1.9rem}
+.fg-wrap{display:flex;flex-direction:column;gap:.9rem}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fg{display:flex;flex-direction:column;gap:.34rem}
+.flbl{font-family:var(--FD);font-size:.56rem;letter-spacing:.2em;color:var(--dim2)}
+.finput{background:var(--w);border:1px solid var(--bdr2);color:var(--ink);padding:.82rem .95rem;font-family:var(--FB);font-size:.93rem;font-weight:300;outline:none;transition:border-color .25s,box-shadow .25s;width:100%}
+.finput:focus{border-color:var(--b);box-shadow:0 0 0 3px var(--bl)}
+.finput::placeholder{color:var(--dim2)}
+textarea.finput{min-height:106px;resize:vertical}
+.chips{display:flex;gap:.38rem;flex-wrap:wrap}
+.chip{font-family:var(--FD);font-size:.62rem;letter-spacing:.14em;padding:.33rem .82rem;border:1px solid var(--bdr2);background:transparent;color:var(--dim);cursor:none;transition:all .25s}
+.chip.on,.chip:hover{background:var(--bl);border-color:var(--b);color:var(--b)}
+.fsub{width:100%;background:var(--b);color:#fff;padding:.92rem;font-family:var(--FD);font-size:.84rem;letter-spacing:.24em;border:none;cursor:none;transition:all .35s;margin-top:.25rem}
+.fsub:hover{background:var(--bm);box-shadow:0 8px 22px var(--bg)}
+
+footer{background:var(--ink);padding:2.1rem 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.4rem}
+.fl{font-family:var(--FD);font-size:1.25rem;letter-spacing:.16em;color:rgba(215,225,240,.38);text-decoration:none}
+.fl span{color:var(--b)}
+.flinks{display:flex;gap:1.9rem}
+.flinks a{font-family:var(--FD);font-size:.66rem;letter-spacing:.2em;color:rgba(215,225,240,.2);text-decoration:none;transition:color .25s}
+.flinks a:hover{color:rgba(215,225,240,.6)}
+.fcopy{font-family:var(--FD);font-size:.58rem;letter-spacing:.16em;color:rgba(215,225,240,.1)}
+
+#lb{position:fixed;inset:0;z-index:2000;background:rgba(5,7,16,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s ease}
+#lb.open{opacity:1;pointer-events:all}
+#lb::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0,rgba(0,0,0,0) 3px,rgba(0,0,0,.055) 3px,rgba(0,0,0,.055) 4px)}
+.lb-inner{width:min(91vw,1100px);position:relative;transform:scale(.93);transition:transform .55s var(--E)}
+#lb.open .lb-inner{transform:scale(1)}
+.lb-bars{position:absolute;left:-9%;right:-9%;height:58px;background:var(--void);z-index:1}
+.lb-bars.t{top:-58px}.lb-bars.b{bottom:-58px}
+.lb-bars.t::after{content:'SHOWREEL 2024–2025  ·  DIRECTOR / CINEMATOGRAPHER / EDITOR';position:absolute;bottom:.6rem;left:5%;font-family:var(--FD);font-size:.52rem;letter-spacing:.3em;color:rgba(201,168,76,.18)}
+.lb-bars.b::before{content:'BELLO TOHEEB OLAMILEKAN  ·  IMMEDIATE AVAILABILITY';position:absolute;top:.6rem;right:5%;font-family:var(--FD);font-size:.52rem;letter-spacing:.26em;color:rgba(29,78,216,.2)}
+.lb-frame{position:relative;padding-bottom:56.25%;background:#000;box-shadow:0 40px 100px rgba(0,0,0,.9);outline:1px solid rgba(29,78,216,.08)}
+.lb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.lb-meta{text-align:center;margin-top:2.6rem}
+.lb-mt{font-family:var(--FD);font-size:1.3rem;letter-spacing:.24em;color:rgba(215,225,240,.7)}
+.lb-ms{font-family:var(--FD);font-size:.6rem;letter-spacing:.35em;color:var(--f3);margin-top:.45rem}
+.lb-x{position:absolute;top:-5.2rem;right:0;background:transparent;border:1px solid rgba(255,255,255,.1);width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:rgba(215,225,240,.4);cursor:none;transition:all .3s;font-size:1rem}
+.lb-x:hover{background:var(--f4);color:var(--f)}
+
+.btn-b{display:inline-flex;align-items:center;gap:.6rem;background:var(--b);color:#fff;padding:.75rem 1.7rem;font-family:var(--FD);font-size:.78rem;letter-spacing:.18em;border:none;cursor:none;text-decoration:none;transition:all .3s}
+.btn-b:hover{background:var(--bm);box-shadow:0 7px 20px var(--bg);transform:translateY(-2px)}
+.btn-b svg{width:13px;height:13px;fill:currentColor}
+.btn-o{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:var(--b);padding:.75rem 1.65rem;font-family:var(--FD);font-size:.78rem;letter-spacing:.18em;border:1px solid var(--bl2);cursor:none;text-decoration:none;transition:all .3s}
+.btn-o:hover{background:var(--bl);border-color:var(--b);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:var(--f);padding:.75rem 1.65rem;font-family:var(--FD);font-size:.78rem;letter-spacing:.18em;border:1px solid var(--f3);cursor:none;text-decoration:none;transition:all .3s}
+.btn-ghost:hover{border-color:rgba(215,225,240,.3);background:var(--f4);transform:translateY(-2px)}
+
+@media(max-width:1060px){
+  nav{padding:1rem 4vw}.reel-header{padding:4rem 4vw 2.5rem}
+  .reel-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .wc{grid-column:auto!important;grid-row:auto!important;height:200px}
+  .about,.contact{grid-template-columns:1fr}
+  .about-l,.about-r,.contact-l,.contact-r{padding:4rem 4vw}
+  .exp-inner,.gear-top{grid-template-columns:1fr}
+  .gear-grid,.ref-grid{grid-template-columns:1fr}
+  .hero-name h1{font-size:clamp(3rem,9vw,5.5rem)}
+}
+</style>
+</head>
+<body id="top">
+
+<div id="cur"><div id="cur-dot"></div><div id="cur-ring"></div></div>
+
+<!-- NAV — invisible until scroll, no "Open to Work" text -->
+<nav id="Nav">
+  <a class="nl" href="#top">BELLO<span style="color:var(--b)">·</span>TOHEEB</a>
+  <div class="nav-r">
+    <a href="#reel">Work</a>
+    <a href="#about">About</a>
+    <a href="#exp">Experience</a>
+    <a href="#gear">Gear</a>
+    <a href="#contact">Contact</a>
+    <button class="nav-btn" id="navReel">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      Watch Showreel
+    </button>
+  </div>
+</nav>
+
+<!-- HERO — full cinema, play button is the centrepiece -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <video id="heroBg" autoplay muted loop playsinline src=""></video>
+    <div class="hero-bg-fb" id="heroFB"></div>
+  </div>
+  <div class="hero-ov"></div>
+  <div class="hero-vig"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-lb-t"></div>
+  <div class="hero-lb-b" id="lbBar"></div>
+
+  <div class="hero-center">
+    <div class="hero-eyebrow">Cinematographer &nbsp;·&nbsp; Video Editor &nbsp;·&nbsp; Content Creator</div>
+    <div class="play-orbit" id="openReel">
+      <div class="play-outer-ring"></div>
+      <div class="play-ring">
+        <div class="play-core">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="play-hint">PLAY SHOWREEL</div>
+  </div>
+
+  <div class="hero-name">
+    <div class="hero-portfolio-tag">Portfolio</div>
+    <h1>BELLO<span class="out">TOHEEB</span></h1>
+    <p>Cinematographer · Video Editor · Content Creator</p>
+  </div>
+
+  <a class="hero-br" href="#reel">
+    <div class="hero-sline"></div>
+    <div class="hero-stxt">SCROLL</div>
+  </a>
+</section>
+
+<!-- TRUSTED BY -->
+<div class="trusted">
+  <div class="t-track">
+    <div class="brand"><span class="bdot"></span>Btr Media Institute</div>
+    <div class="brand"><span class="bdot"></span>Goldeen Penny Oil</div>
+    <div class="brand"><span class="bdot"></span>Opolo Global Limited</div>
+    <div class="brand"><span class="bdot"></span>Shiloh Montessori School</div>
+    <div class="brand"><span class="bdot"></span>FUO Finest</div>
+    <div class="brand"><span class="bdot"></span>Fountain University</div>
+    <div class="brand"><span class="bdot"></span>NYSC Ondo State</div>
+    <div class="brand"><span class="bdot"></span>20+ Freelance Clients</div>
+    <div class="brand"><span class="bdot"></span>Btr Media Institute</div>
+    <div class="brand"><span class="bdot"></span>Goldeen Penny Oil</div>
+    <div class="brand"><span class="bdot"></span>Opolo Global Limited</div>
+    <div class="brand"><span class="bdot"></span>Shiloh Montessori School</div>
+    <div class="brand"><span class="bdot"></span>FUO Finest</div>
+    <div class="brand"><span class="bdot"></span>Fountain University</div>
+    <div class="brand"><span class="bdot"></span>NYSC Ondo State</div>
+    <div class="brand"><span class="bdot"></span>20+ Freelance Clients</div>
+  </div>
+</div>
+
+<!-- PORTFOLIO — 9 cards, 3 rows, wall to wall -->
+<section id="reel">
+  <div class="reel-header">
+    <div>
+      <div class="ey">Portfolio</div>
+      <h2 class="reel-h">Selected <em>Work</em></h2>
+      <p class="reel-sub">Hover any card to preview. Your exact role is on every piece.</p>
+    </div>
+    <div class="filter-row">
+      <button class="fb on" onclick="fw(this,'all')">All</button>
+      <button class="fb" onclick="fw(this,'brand')">Brand</button>
+      <button class="fb" onclick="fw(this,'edit')">Editing</button>
+      <button class="fb" onclick="fw(this,'doc')">Documentary</button>
+      <button class="fb" onclick="fw(this,'social')">Social</button>
+      <button class="fb" onclick="fw(this,'music')">Music Video</button>
+    </div>
+  </div>
+  <div class="reel-grid">
+    <div class="wc" data-cat="doc">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">01</div><div class="wc-role">Director · Cinematographer · Editor</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Documentary</div><div class="wc-title">Poverty in Isale Osun — Audio Visual Documentary</div><div class="wc-meta"><span>Full Production</span><span>Osogbo, Osun State</span><span>2024</span></div></div>
+    </div>
+    <div class="wc" data-cat="brand">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">02</div><div class="wc-role">Editor · Sound Designer</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Commercial Advert</div><div class="wc-title">Goldeen Penny Oil — Ad Campaign</div><div class="wc-meta"><span>Edit + Sound Design</span><span>2022</span></div></div>
+    </div>
+    <div class="wc" data-cat="brand">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">03</div><div class="wc-role">Editor · Creative Consultant</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Commercial Advert</div><div class="wc-title">Opolo Global Limited — Campaign</div><div class="wc-meta"><span>Edit + Direction</span><span>2023</span></div></div>
+    </div>
+    <div class="wc" data-cat="social">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">04</div><div class="wc-role">Content Creator · Social Media Manager</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Social Media</div><div class="wc-title">FUO Finest — University Brand Page</div><div class="wc-meta"><span>1.5k → 3k Followers</span><span>2023–Present</span></div></div>
+    </div>
+    <div class="wc" data-cat="brand">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">05</div><div class="wc-role">Cinematographer · Editor</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Promotional Film</div><div class="wc-title">Shiloh Montessori — School Events Series</div><div class="wc-meta"><span>Ongoing</span><span>2025</span></div></div>
+    </div>
+    <div class="wc" data-cat="edit">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">06</div><div class="wc-role">Visual Content Creator · Editor</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Community Outreach</div><div class="wc-title">NYSC CDS — Community Media Campaign</div><div class="wc-meta"><span>Photography + Video</span><span>2025</span></div></div>
+    </div>
+    <div class="wc" data-cat="brand">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">07</div><div class="wc-role">Cinematographer · Editor</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Brand Marketing</div><div class="wc-title">Btr Media Institute — Promotional Content</div><div class="wc-meta"><span>Brand + Engagement</span><span>2022</span></div></div>
+    </div>
+    <div class="wc" data-cat="edit">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">08</div><div class="wc-role">Producer · Editor · Coordinator</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Production</div><div class="wc-title">Btr Media — Assistant Producer Role</div><div class="wc-meta"><span>Scheduling + Logistics</span><span>2023</span></div></div>
+    </div>
+    <div class="wc" data-cat="brand">
+      <div class="wc-bg"></div><div class="wc-vid"><video muted loop playsinline src=""></video></div>
+      <div class="wc-splice"></div><div class="wc-scan"></div>
+      <div class="wc-num">09</div><div class="wc-role">Cinematographer · Editor</div>
+      <div class="wc-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="wc-info"><div class="wc-cat">Freelance</div><div class="wc-title">Client Projects — 20+ Satisfied Clients</div><div class="wc-meta"><span>Brand Films · Promos</span><span>2021–Present</span></div></div>
+    </div>
+  </div>
+  <div class="reel-footer">
+    <button class="btn-b" id="openReel2"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch Full Showreel</button>
+    <a class="btn-o" href="#contact">Discuss a Project →</a>
+  </div>
+</section>
+
+<!-- ABOUT — editorial split -->
+<section class="about" id="about">
+  <div class="about-l">
+    <div class="about-big">BELLO<span>TOHEEB</span></div>
+    <div class="about-st">
+      <p>Mass Communication graduate with hands-on experience across the full production pipeline — cinematography, editing, social media, and brand storytelling.</p>
+      <div class="about-div"></div>
+      <div class="about-stats">
+        <div class="ast"><div class="ast-n">4+</div><div class="ast-l">Years Active</div></div>
+        <div class="ast"><div class="ast-n">20+</div><div class="ast-l">Clients Served</div></div>
+        <div class="ast"><div class="ast-n">3k+</div><div class="ast-l">Audience Grown</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="about-r">
+    <div class="av-frame">
+      <video id="aboutVid" autoplay muted loop playsinline src=""></video>
+      <div class="av-fb" id="aboutFB"><div class="av-ghost">LENS</div></div>
+    </div>
+    <div class="about-copy">
+      <p>Based in Nigeria. B.Sc Mass Communication from Fountain University Osogbo. Since 2021, I've covered events, directed documentary work, edited commercials, and managed social media for organisations across Osun, Ondo, and Lagos States.</p>
+      <p>I bring more than a camera — I bring structure, a creative eye, and the initiative to own a project from shoot to final cut. Currently completing NYSC and immediately available for graduate trainee or full-time media roles.</p>
+    </div>
+    <div class="skills">
+      <span class="sk">Premiere Pro</span><span class="sk">CapCut</span><span class="sk">After Effects</span>
+      <span class="sk">CorelDRAW</span><span class="sk">Canva</span><span class="sk">Photography</span>
+      <span class="sk">Videography</span><span class="sk">Social Media Mgmt</span><span class="sk">Brand Storytelling</span>
+    </div>
+    <div class="about-cta">
+      <a class="btn-b" href="#" download><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11zm-3-7H9v-2h6v2zm0 4H9v-2h6v2z"/></svg>Download CV</a>
+      <a class="btn-o" href="#contact">Get In Touch →</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="exp" id="exp">
+  <div class="ey">Background</div>
+  <div class="exp-inner">
+    <div class="exp-intro">
+      <h2>Experience &<br><em>Education</em></h2>
+      <p style="margin-top:.7rem">Four years building experience across production, editing, social media, and brand communication in Nigeria.</p>
+    </div>
+    <div class="timeline">
+      <div class="te cur">
+        <div class="te-dot"></div>
+        <div class="te-period">Jan 2025 — Jan 2026</div>
+        <div class="te-role">Visual Content Creator · Video Editor</div>
+        <div class="te-co">NYSC / Shiloh Montessori School · Akungba Akoko, Ondo State</div>
+        <p class="te-desc">Handled photography, videography, and editing for CDS community outreach. Produced and edited promotional videos of school activities and achievements, covering events with a creative and engaging visual approach.</p>
+        <div class="te-tags"><span class="te-tag">Premiere Pro</span><span class="te-tag">Photography</span><span class="te-tag">Event Coverage</span><span class="te-tag">Community Media</span></div>
+      </div>
+      <div class="te">
+        <div class="te-dot"></div>
+        <div class="te-period">Jul 2023 — Present</div>
+        <div class="te-role">Social Media Manager</div>
+        <div class="te-co">Fountain University Promotional Page (FUO Finest)</div>
+        <p class="te-desc">Developed post schedules and captions to maintain consistent brand tone. Grew the page's following from 1.5k to over 3k active followers, increasing visibility and engagement across the student community.</p>
+        <div class="te-tags"><span class="te-tag">Social Strategy</span><span class="te-tag">Content Calendar</span><span class="te-tag">Audience Growth</span><span class="te-tag">Canva</span></div>
+      </div>
+      <div class="te">
+        <div class="te-dot"></div>
+        <div class="te-period">May 2023 — Oct 2023</div>
+        <div class="te-role">Social Media Handler / Assistant Producer</div>
+        <div class="te-co">Btr Media Institute · Osun State</div>
+        <p class="te-desc">Collaborated with the creative team on smooth production and timely content delivery. Planned shooting schedules and coordinated logistics including locations, permits, and equipment.</p>
+        <div class="te-tags"><span class="te-tag">Production Coordination</span><span class="te-tag">Shoot Scheduling</span><span class="te-tag">Social Media</span></div>
+      </div>
+      <div class="te">
+        <div class="te-dot"></div>
+        <div class="te-period">Mar 2022 — Aug 2022</div>
+        <div class="te-role">Administrative Intern / Visual Content</div>
+        <div class="te-co">Btr Media Institute · Osun State</div>
+        <p class="te-desc">Covered multiple events capturing high-quality visual content. Produced and edited promotional videos for brand marketing and online engagement, collaborating with the media team for timely delivery.</p>
+        <div class="te-tags"><span class="te-tag">Event Coverage</span><span class="te-tag">Video Editing</span><span class="te-tag">Brand Marketing</span></div>
+      </div>
+      <div class="te">
+        <div class="te-dot"></div>
+        <div class="te-period">Aug 2021 — Present</div>
+        <div class="te-role">Freelance Cinematographer & Video Editor</div>
+        <div class="te-co">Self-Employed · Nigeria</div>
+        <p class="te-desc">Directed and edited creative video projects for over 20 satisfied clients. Handled brand short films and promotional visuals across diverse niches from sole-trader businesses to NGOs.</p>
+        <div class="te-tags"><span class="te-tag">Cinematography</span><span class="te-tag">Video Editing</span><span class="te-tag">Brand Films</span><span class="te-tag">Client Management</span></div>
+      </div>
+      <div class="edu">
+        <div class="edu-ic">🎓</div>
+        <div><div class="edu-d">B.Sc Mass Communication</div><div class="edu-s">Fountain University Osogbo</div><div class="edu-y">Feb 2021 – Jan 2025 · Second Class Lower Division</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR -->
+<section class="gear" id="gear">
+  <div class="gear-top">
+    <div class="gear-intro">
+      <div class="ey">Technical</div>
+      <h2>Kit &<br><em>Workflow</em></h2>
+      <p>Every tool in the workflow — from shoot to final export.</p>
+    </div>
+    <div class="gear-grid">
+      <div class="gc">
+        <div class="gc-title">Video Editing Software</div>
+        <div class="gi"><span class="gi-n">Adobe Premiere Pro</span><span class="gi-t">Primary</span></div>
+        <div class="gi"><span class="gi-n">CapCut</span><span class="gi-t">Mobile / Social</span></div>
+        <div class="gi"><span class="gi-n">Adobe After Effects</span><span class="gi-t">Motion</span></div>
+        <div class="gi"><span class="gi-n">Microsoft Office Suite</span><span class="gi-t">Admin</span></div>
+      </div>
+      <div class="gc">
+        <div class="gc-title">Design & Visual Tools</div>
+        <div class="gi"><span class="gi-n">CorelDRAW</span><span class="gi-t">Graphics Design</span></div>
+        <div class="gi"><span class="gi-n">Canva</span><span class="gi-t">Social & Branding</span></div>
+        <div class="gi"><span class="gi-n">Photography</span><span class="gi-t">Events & Docs</span></div>
+        <div class="gi"><span class="gi-n">Videography</span><span class="gi-t">Camera Operation</span></div>
+      </div>
+      <div class="gc">
+        <div class="gc-title">Media & Communication</div>
+        <div class="gi"><span class="gi-n">Social Media Strategy</span><span class="gi-t">Multi-Platform</span></div>
+        <div class="gi"><span class="gi-n">Content Scheduling</span><span class="gi-t">Planning</span></div>
+        <div class="gi"><span class="gi-n">Brand Storytelling</span><span class="gi-t">Messaging</span></div>
+        <div class="gi"><span class="gi-n">Sound Design</span><span class="gi-t">Post Audio</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="refs" id="refs">
+  <div class="ey">References</div>
+  <h2 style="font-family:var(--FI);font-weight:400;font-size:clamp(1.9rem,3.2vw,3rem);color:var(--ink)">What collaborators <em style="font-style:italic;color:var(--b)">say</em></h2>
+  <div class="ref-grid">
+    <div class="rc">
+      <div class="rc-src">Btr Media Institute</div>
+      <p class="rc-q">Toheeb consistently delivered high-quality visual content on schedule. His ability to cover events independently while maintaining a professional standard set him apart from other interns.</p>
+      <div class="rc-auth"><div class="rc-av">BM</div><div><div class="rc-name">Btr Media Institute</div><div class="rc-title">Media Production Company · Osun State</div><div class="rc-ctx">Internship + Assistant Producer · 2022–2023</div></div></div>
+    </div>
+    <div class="rc">
+      <div class="rc-src">Freelance Client</div>
+      <p class="rc-q">He understood exactly what we needed for our brand film without lengthy explanations. The final edit was crisp, on-brand, and delivered ahead of time. We have since referred him to two other businesses.</p>
+      <div class="rc-auth"><div class="rc-av">FC</div><div><div class="rc-name">Freelance Client</div><div class="rc-title">Brand Short Film · Nigeria</div><div class="rc-ctx">One of 20+ satisfied clients · 2021–Present</div></div></div>
+    </div>
+    <div class="rc">
+      <div class="rc-src">NYSC Primary Assignment</div>
+      <p class="rc-q">His documentation of our school events brought a new level of professionalism to how we present ourselves to parents and the public. His edited videos speak for themselves.</p>
+      <div class="rc-auth"><div class="rc-av">SM</div><div><div class="rc-name">Shiloh Montessori School</div><div class="rc-title">Primary Assignment · Akungba Akoko</div><div class="rc-ctx">Video Editor & Content Creator · 2025</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-l">
+    <div>
+      <div class="ey">Contact</div>
+      <h2 class="contact-big">LET'S<br>MAKE<br><em>Something</em></h2>
+      <p class="contact-p">Available for graduate trainee, full-time, or contract media roles. Immediate start following NYSC completion January 2026.</p>
+      <div class="cinfo">
+        <div class="ci">
+          <div class="ci-ic"><svg viewBox="0 0 24 24" style="fill:var(--b);width:15px;height:15px"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div><div class="ci-l">Email</div><div class="ci-v">toheebbello521@gmail.com</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic"><svg viewBox="0 0 24 24" style="fill:#25d366;width:15px;height:15px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+          <div><div class="ci-l">WhatsApp / Phone</div><div class="ci-v">08064905989</div></div>
+        </div>
+        <div class="ci">
+          <div class="ci-ic" style="font-size:.95rem">📍</div>
+          <div><div class="ci-l">Based In</div><div class="ci-v">Ifo, Ogun State · Open to Relocation</div></div>
+        </div>
+      </div>
+      <div class="socials">
+        <a class="soc" href="https://instagram.com/yourhandle" target="_blank" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <a class="soc" href="https://youtube.com/@yourchannel" target="_blank" title="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+        </a>
+        <a class="soc" href="mailto:toheebbello521@gmail.com" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a class="soc" href="https://wa.me/2348064905989" target="_blank" title="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        </a>
+      </div>
+      <div class="cv-row">
+        <div><div class="cv-row-t">Download Full CV</div><div class="cv-row-s">PDF · Updated 2025 · Immediate availability</div></div>
+        <a class="btn-b" href="#" download><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11zm-3-7H9v-2h6v2zm0 4H9v-2h6v2z"/></svg>Download</a>
+      </div>
+    </div>
+  </div>
+  <div class="contact-r">
+    <div class="form-t">Send a message</div>
+    <div class="form-s">Job opportunity, project, or collaboration.</div>
+    <form class="fg-wrap" onsubmit="handleSub(event)">
+      <div class="fg2">
+        <div class="fg"><label class="flbl">Name</label><input type="text" class="finput" placeholder="Jane Smith" required></div>
+        <div class="fg"><label class="flbl">Company</label><input type="text" class="finput" placeholder="Acme Media"></div>
+      </div>
+      <div class="fg"><label class="flbl">Email</label><input type="email" class="finput" placeholder="jane@company.com" required></div>
+      <div class="fg">
+        <label class="flbl">Reaching Out About</label>
+        <div class="chips">
+          <button type="button" class="chip" onclick="sc(this)">Job Opportunity</button>
+          <button type="button" class="chip" onclick="sc(this)">Freelance Project</button>
+          <button type="button" class="chip" onclick="sc(this)">Collaboration</button>
+          <button type="button" class="chip" onclick="sc(this)">Just Saying Hi</button>
+        </div>
+      </div>
+      <div class="fg"><label class="flbl">Message</label><textarea class="finput" placeholder="Tell me about it..."></textarea></div>
+      <button type="submit" class="fsub" id="fsub">Send Message →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <a class="fl" href="#top">BELLO<span>·</span>TOHEEB</a>
+  <div class="flinks">
+    <a href="#reel">Work</a><a href="#about">About</a><a href="#exp">Experience</a>
+    <a href="#gear">Gear</a><a href="#contact">Contact</a><a href="#" download>CV</a>
+  </div>
+  <div class="fcopy">© 2025 Bello Toheeb Olamilekan</div>
+</footer>
+
+<div id="lb">
+  <div class="lb-inner">
+    <button class="lb-x" id="lbX">✕</button>
+    <div class="lb-bars t"></div>
+    <div class="lb-bars b"></div>
+    <div class="lb-frame">
+      <iframe id="lbF" src="about:blank" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="lb-meta"><div class="lb-mt">SHOWREEL 2024–2025</div><div class="lb-ms">Cinematography · Editing · Color · Motion</div></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── UPDATE THIS to your YouTube or Vimeo embed URL ── */
+const REEL='https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
+
+/* CURSOR */
+const cur=document.getElementById('cur');
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+document.querySelectorAll('.wc').forEach(c=>{c.addEventListener('mouseenter',()=>cur.classList.add('on-card'));c.addEventListener('mouseleave',()=>cur.classList.remove('on-card'))});
+document.querySelectorAll('a,button,.play-orbit').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('on-link'));el.addEventListener('mouseleave',()=>cur.classList.remove('on-link'))});
+document.addEventListener('mouseleave',()=>cur.style.opacity='0');
+document.addEventListener('mouseenter',()=>cur.style.opacity='1');
+
+/* NAV — slides in after scrolling past 62% of hero */
+window.addEventListener('scroll',()=>document.getElementById('Nav').classList.toggle('on',window.scrollY>window.innerHeight*.62));
+
+/* VIDEO FALLBACK */
+function initVid(vId,fbId){const v=document.getElementById(vId),f=document.getElementById(fbId);if(!v||!f)return;if(!v.getAttribute('src')||!v.getAttribute('src').trim()){v.style.display='none';return}v.addEventListener('error',()=>v.style.display='none');v.addEventListener('canplay',()=>{f.style.transition='opacity .9s';f.style.opacity='0'})}
+initVid('heroBg','heroFB');initVid('aboutVid','aboutFB');
+
+/* PORTFOLIO HOVER VIDEO */
+document.querySelectorAll('.wc').forEach(card=>{const v=card.querySelector('.wc-vid video');if(!v||!v.getAttribute('src'))return;card.addEventListener('mouseenter',()=>v.play().catch(()=>{}));card.addEventListener('mouseleave',()=>{v.pause();v.currentTime=0})});
+
+/* FILTER */
+function fw(btn,cat){document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.querySelectorAll('.wc').forEach(c=>{const show=cat==='all'||c.dataset.cat===cat;c.style.transition='opacity .42s,transform .42s';c.style.opacity=show?'1':'0.055';c.style.transform=show?'scale(1)':'scale(0.975)';c.style.pointerEvents=show?'auto':'none'})}
+
+/* LIGHTBOX */
+function openLB(){document.getElementById('lbF').src=REEL;document.getElementById('lb').classList.add('open');document.body.style.overflow='hidden'}
+function closeLB(){document.getElementById('lbF').src='about:blank';document.getElementById('lb').classList.remove('open');document.body.style.overflow=''}
+['openReel','openReel2','navReel'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',openLB)});
+document.getElementById('lbX').addEventListener('click',closeLB);
+document.getElementById('lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLB()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+
+/* CHIP */
+function sc(btn){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));btn.classList.add('on')}
+
+/* FORM */
+function handleSub(e){e.preventDefault();const b=document.getElementById('fsub');b.textContent='Sent ✓';b.style.background='#16a34a';setTimeout(()=>{b.textContent='Send Message →';b.style.background='';e.target.reset();document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'))},3500)}
+
+/* SCROLL REVEAL */
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;setTimeout(()=>{e.target.style.opacity='1';e.target.style.transform='translateY(0)'},+(e.target.dataset.d||0));io.unobserve(e.target)})},{threshold:.06});
+document.querySelectorAll('.wc,.rc,.te,.gc,.ast').forEach((el,i)=>{el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .65s ease,transform .65s ease';el.dataset.d=(i%5)*55;io.observe(el)});
+
+/* TIMECODE */
+const bar=document.getElementById('lbBar');
+function tc(){const n=new Date(),p=v=>Stri
