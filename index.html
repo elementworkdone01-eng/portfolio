@@ -650,10 +650,22 @@ function openLB(ytId,title){
   var lb=document.getElementById('lb');
   var frame=document.getElementById('lbF');
   var lbTitle=document.getElementById('lbTitle');
-  // Use youtube-nocookie for privacy-enhanced mode — also less likely to be blocked
-  var embedUrl='https://www.youtube-nocookie.com/embed/'+ytId+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';
-  frame.setAttribute('src',embedUrl);
+  var embedUrl='https://www.youtube-nocookie.com/embed/'+ytId+'?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=0';
+  frame.setAttribute('src','about:blank');
+  setTimeout(function(){frame.setAttribute('src',embedUrl);},80);
   if(lbTitle)lbTitle.textContent=title||'SHOWREEL';
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function openDriveLB(driveId,title){
+  var lb=document.getElementById('lb');
+  var frame=document.getElementById('lbF');
+  var lbTitle=document.getElementById('lbTitle');
+  // Use /preview endpoint — works for publicly shared Drive videos without sign-in
+  var embedUrl='https://drive.google.com/file/d/'+driveId+'/preview';
+  frame.setAttribute('src','about:blank');
+  setTimeout(function(){frame.setAttribute('src',embedUrl);},80);
+  if(lbTitle)lbTitle.textContent=title||'VIDEO';
   lb.classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -683,7 +695,7 @@ document.querySelectorAll('.wc').forEach(function(card){
     if(yt){
       openLB(yt,title);
     } else if(drive){
-      window.open('https://drive.google.com/file/d/'+drive+'/view','_blank');
+      openDriveLB(drive,title);
     }
   });
 });
