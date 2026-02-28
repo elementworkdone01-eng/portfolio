@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -683,7 +684,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLB()});
 /* Showreel buttons */
 ['navReel','openReel'].forEach(function(id){
   var el=document.getElementById(id);
-  if(el)el.addEventListener('click',function(){openLB('Vtdgu98gPtw','SHOWREEL 2024–2025')});
+  if(el)el.addEventListener('click',function(){window.open('https://www.youtube.com/watch?v=Vtdgu98gPtw','_blank');});
 });
 
 /* PORTFOLIO CARD CLICKS */
@@ -691,11 +692,10 @@ document.querySelectorAll('.wc').forEach(function(card){
   card.addEventListener('click',function(){
     var yt=card.getAttribute('data-yt');
     var drive=card.getAttribute('data-drive');
-    var title=card.getAttribute('data-title')||'';
     if(yt){
-      openLB(yt,title);
+      window.open('https://www.youtube.com/watch?v='+yt,'_blank');
     } else if(drive){
-      openDriveLB(drive,title);
+      window.open('https://drive.google.com/file/d/'+drive+'/view','_blank');
     }
   });
 });
