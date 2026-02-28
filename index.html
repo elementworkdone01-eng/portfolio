@@ -647,29 +647,39 @@ window.addEventListener('scroll',()=>document.getElementById('Nav').classList.to
 
 /* LIGHTBOX open/close */
 function openLB(ytId,title){
-  const origin=encodeURIComponent(window.location.origin||'https://bellotoheeb.netlify.app');
-  document.getElementById('lbF').src='https://www.youtube.com/embed/'+ytId+'?autoplay=1&mute=0&rel=0&enablejsapi=1&origin='+origin;
-  document.getElementById('lbTitle').textContent=title||'SHOWREEL';
-  document.getElementById('lb').classList.add('open');
+  var lb=document.getElementById('lb');
+  var frame=document.getElementById('lbF');
+  var lbTitle=document.getElementById('lbTitle');
+  // Use youtube-nocookie for privacy-enhanced mode — also less likely to be blocked
+  var embedUrl='https://www.youtube-nocookie.com/embed/'+ytId+'?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+  frame.setAttribute('src',embedUrl);
+  if(lbTitle)lbTitle.textContent=title||'SHOWREEL';
+  lb.classList.add('open');
   document.body.style.overflow='hidden';
 }
 function closeLB(){
-  document.getElementById('lbF').src='about:blank';
-  document.getElementById('lb').classList.remove('open');
+  var frame=document.getElementById('lbF');
+  var lb=document.getElementById('lb');
+  frame.setAttribute('src','about:blank');
+  lb.classList.remove('open');
   document.body.style.overflow='';
 }
 document.getElementById('lbX').addEventListener('click',closeLB);
-document.getElementById('lb').addEventListener('click',e=>{if(e.target.id==='lb')closeLB()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+document.getElementById('lb').addEventListener('click',function(e){if(e.target.id==='lb')closeLB()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLB()});
+
 /* Showreel buttons */
-['navReel','openReel'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',()=>openLB('Vtdgu98gPtw','SHOWREEL 2024–2025'))});
+['navReel','openReel'].forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.addEventListener('click',function(){openLB('Vtdgu98gPtw','SHOWREEL 2024–2025')});
+});
 
 /* PORTFOLIO CARD CLICKS */
-document.querySelectorAll('.wc').forEach(card=>{
-  card.addEventListener('click',()=>{
-    const yt=card.dataset.yt;
-    const drive=card.dataset.drive;
-    const title=card.dataset.title||'';
+document.querySelectorAll('.wc').forEach(function(card){
+  card.addEventListener('click',function(){
+    var yt=card.getAttribute('data-yt');
+    var drive=card.getAttribute('data-drive');
+    var title=card.getAttribute('data-title')||'';
     if(yt){
       openLB(yt,title);
     } else if(drive){
